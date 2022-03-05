@@ -1,4 +1,4 @@
-{
+emojiMap = {
 "#\ufe0f\u20e3":                          {"hash", "keycap_#"},
 "*\ufe0f\u20e3":                          {"asterisk", "keycap_*", "keycap_star"},
 "0\ufe0f\u20e3":                          {"zero", "keycap_0"},
