@@ -1,4 +1,3 @@
-from itertools import count
 from emoji import *
 
 lineTemplate = "{:<5} => {:^30},\t len: {} | "
@@ -12,4 +11,4 @@ for i in emoji:
     print()
     if count % 100 == 0:
         print('----',count,'---')
-        input("=============== =============== ============== =======")
+        input("=============== =============== Press <Enter> for next group ============== =======")
