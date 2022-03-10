@@ -1,7 +1,10 @@
+from sre_parse import expand_template
 from tkinter import *
 from tkinter import ttk
 
 import json
+
+from VerticalScrolledFrame import *
 
 from vars import *
 import callbacks as cb
@@ -24,6 +27,7 @@ class root():
     def build(self):
         self.buuildTopBar()
         self.buildCategores()
+        self.buildPanel()
 
     def buuildTopBar(self):
         self.search = StringVar()
@@ -49,7 +53,24 @@ class root():
         for index, cname in enumerate(categoryorder):
             cat = ttk.Button(self.frame, text=cname[1])
             cat.grid(row=1, column=index)
-            self.categores.append(cat)        
+            self.categores.append(cat) 
+
+    def buildPanel(self):
+        
+        canvas = VerticalScrolledFrame(self.frame)
+
+        canvas.grid(row=2, column=0, columnspan=10, sticky=W+E)
+
+        self.emojis = ttk.Frame(canvas, height=300)
+        self.emojis.grid(row=0, column=0)
+    
+        for j in range(50):
+            for i in range(9):
+                ttk.Button(self.emojis,text=str(j)+" " + str(i)).grid(row=j, column=i)
+
+   
+
+
 
     def mainloop(self):
         self.root.mainloop()
