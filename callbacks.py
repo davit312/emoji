@@ -16,3 +16,10 @@ def onsearch(*args):
 def onclearsearch():
     w.search.set('')
     w.searchbar.focus()
+
+def crateonpressCategory(cname):
+    def callback():
+        w.emojis.destroy()
+        w.buildPanel(cname[0])
+
+    return callback    

@@ -1,4 +1,3 @@
-from sre_parse import expand_template
 from tkinter import *
 from tkinter import ttk
 
@@ -6,14 +5,20 @@ import json
 
 from VerticalScrolledFrame import *
 
+from emoji import *
 from vars import *
 import callbacks as cb
 
 class root():
 
     def __init__(self):
-        self.root = Tk()
+        cb.setWindow(self)
 
+        with open("./panel.json") as panelfile:
+            self.panel = json.load(panelfile)
+            self.panel['recent'] = []
+
+        self.root = Tk()
         self.root.title(txt['title'])
 
         self.content = ttk.Frame(self.root)
@@ -22,12 +27,15 @@ class root():
         self.frame = ttk.Frame(self.content, borderwidth=5,)
         self.frame.grid(column=0, row=0, columnspan=8, rowspan=4)
 
-        cb.setWindow(self)
+        self.canvas = VerticalScrolledFrame(self.frame)
+
+        self.canvas.grid(row=2, column=0, columnspan=10, sticky=W+E)
    
     def build(self):
         self.buuildTopBar()
         self.buildCategores()
-        self.buildPanel()
+        self.buildPanel('people')
+        self.buildFooter
 
     def buuildTopBar(self):
         self.search = StringVar()
@@ -45,32 +53,32 @@ class root():
         self.clearSearch.grid(row=0,column=8)
 
     def buildCategores(self):
-        panelfile = open("./panel.json")
-        self.panel = json.load(panelfile)
 
         self.categores = list()
 
-        for index, cname in enumerate(categoryorder):
-            cat = ttk.Button(self.frame, text=cname[1])
+        for index, category in enumerate(categoryorder):
+            cat = ttk.Button(self.frame, 
+                            command=cb.crateonpressCategory(category),
+                            text=category[1])
             cat.grid(row=1, column=index)
             self.categores.append(cat) 
 
-    def buildPanel(self):
-        
-        canvas = VerticalScrolledFrame(self.frame)
+    def buildPanel(self, catname):
 
-        canvas.grid(row=2, column=0, columnspan=10, sticky=W+E)
+        r = c = 0 
 
-        self.emojis = ttk.Frame(canvas, height=300)
+        self.emojis = ttk.Frame(self.canvas, height=300)
         self.emojis.grid(row=0, column=0)
     
-        for j in range(50):
-            for i in range(9):
-                ttk.Button(self.emojis,text=str(j)+" " + str(i)).grid(row=j, column=i)
+        for i in self.panel[catname]:
+            ttk.Button(self.emojis,text=emoji[i][0]).grid(row=r, column=c)
+            c += 1
+            if c == 9:
+                c = 0
+                r += 1
 
-   
-
-
+    def buildFooter(self):
+        pass
 
     def mainloop(self):
         self.root.mainloop()
