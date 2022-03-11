@@ -21,6 +21,9 @@ class root():
         self.root = Tk()
         self.root.title(txt['title'])
 
+        self.currentEmoji = (0, "")
+        self.currentEmojiName = StringVar()
+
         self.content = ttk.Frame(self.root)
         self.content.grid(column=0, row=0)
 
@@ -28,14 +31,13 @@ class root():
         self.frame.grid(column=0, row=0, columnspan=8, rowspan=4)
 
         self.canvas = VerticalScrolledFrame(self.frame)
-
         self.canvas.grid(row=2, column=0, columnspan=10, sticky=W+E)
    
     def build(self):
         self.buuildTopBar()
         self.buildCategores()
         self.buildPanel('people')
-        self.buildFooter
+        self.buildFooter()
 
     def buuildTopBar(self):
         self.search = StringVar()
@@ -71,14 +73,30 @@ class root():
         self.emojis.grid(row=0, column=0)
     
         for i in self.panel[catname]:
-            ttk.Button(self.emojis,text=emoji[i][0]).grid(row=r, column=c)
+            btn = ttk.Button(self.emojis,
+                command=cb.createEmojiPress(i),
+                text=emoji[i][0],
+                )
+            btn.grid(row=r, column=c)
             c += 1
             if c == 9:
                 c = 0
                 r += 1
 
     def buildFooter(self):
-        pass
+        self.emojiname = ttk.Label(textvariable=self.currentEmojiName)
+        self.emojiname.grid(row=3,column=0,columnspan=9)
+
+    def buildEmojibar(self, emojiIndex):
+        self.currentEmoji =  emoji[emojiIndex]
+        self.currentEmojiName.set(formatEmName(self.currentEmoji[1]))
+
 
     def mainloop(self):
         self.root.mainloop()
+
+
+
+
+def formatEmName(emname):
+    return emname[0].upper() + emname[1:].replace('_', ' ')

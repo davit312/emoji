@@ -23,3 +23,8 @@ def crateonpressCategory(cname):
         w.buildPanel(cname[0])
 
     return callback    
+
+def createEmojiPress(symbolIndex):
+    def callback():
+        w.buildEmojibar(symbolIndex)
+    return callback
