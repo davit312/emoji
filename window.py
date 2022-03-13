@@ -33,7 +33,7 @@ class root():
         self.style = ttk.Style()
         self.style.theme_use('clam')
         self.style.configure('TButton', font='Drooid 16')
-        self.style.configure('Category.TButton', bordercolor='#192734')
+        self.style.configure('Category.TButton', foreground='#192754', bordercolor='#192734')
         self.style.configure('TEntry', font="Droid 16")
 
         self.canvas = VerticalScrolledFrame(self.frame)
