@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 
 import json
-
 from VerticalScrolledFrame import *
 
 from emoji import *
@@ -22,13 +21,18 @@ class root():
         self.root.title(txt['title'])
 
         self.currentEmoji = (0, "")
-        self.currentEmojiName = StringVar()
+        self.emojiBarText = StringVar()
 
         self.content = ttk.Frame(self.root)
         self.content.grid(column=0, row=0)
 
         self.frame = ttk.Frame(self.content, borderwidth=5,)
         self.frame.grid(column=0, row=0, columnspan=8, rowspan=4)
+
+        self.style = ttk.Style()
+        self.style.theme_use('default')
+        self.style.configure('TButton', font='Helvatica00 16')
+        self.style.configure('Category.TButton', bordercolor='#192734')
 
         self.canvas = VerticalScrolledFrame(self.frame)
         self.canvas.grid(row=2, column=0, columnspan=10, sticky=W+E)
@@ -61,22 +65,25 @@ class root():
         for index, category in enumerate(categoryorder):
             cat = ttk.Button(self.frame, 
                             command=cb.crateonpressCategory(category),
-                            text=category[1])
+                            text=category[1],
+                            style='Category.TButton')
             cat.grid(row=1, column=index)
+            cat.bind('<Enter>', cb.createCategoryHover(category))
             self.categores.append(cat) 
 
     def buildPanel(self, catname):
 
         r = c = 0 
 
-        self.emojis = ttk.Frame(self.canvas, height=300)
+        self.emojis = ttk.Frame(self.canvas, height=400)
         self.emojis.grid(row=0, column=0)
     
         for i in self.panel[catname]:
-            btn = ttk.Button(self.emojis,
-                command=cb.createEmojiPress(i),
-                text=emoji[i][0],
-                )
+            btn = ttk.Button(self.emojis, text=emoji[i][0],
+                            command=cb.createEmojiClick(emoji[i]),
+                            style='Emoji.TButton')
+            btn.bind('<Enter>', cb.createEmojiHover(i))
+
             btn.grid(row=r, column=c)
             c += 1
             if c == 9:
@@ -84,18 +91,18 @@ class root():
                 r += 1
 
     def buildFooter(self):
-        self.emojiname = ttk.Label(textvariable=self.currentEmojiName)
-        self.emojiname.grid(row=3,column=0,columnspan=9)
+        self.emojiname = ttk.Label(self.frame,textvariable=self.emojiBarText, font=("", 16))        
+        self.emojiname.grid(row=3, column=0, columnspan=9)
+
+        self.copyBar = ttk.Entry(textvariable=)
 
     def buildEmojibar(self, emojiIndex):
         self.currentEmoji =  emoji[emojiIndex]
-        self.currentEmojiName.set(formatEmName(self.currentEmoji[1]))
+        self.emojiBarText.set(formatEmName(self.currentEmoji[1]))
 
 
     def mainloop(self):
         self.root.mainloop()
-
-
 
 
 def formatEmName(emname):

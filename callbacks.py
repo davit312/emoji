@@ -18,13 +18,29 @@ def onclearsearch():
     w.searchbar.focus()
 
 def crateonpressCategory(cname):
-    def callback():
+    def oncategorypress():
         w.emojis.destroy()
         w.buildPanel(cname[0])
 
-    return callback    
+    return oncategorypress    
 
-def createEmojiPress(symbolIndex):
-    def callback():
+
+def createCategoryHover(category):
+    def oncategoryHover(event):
+        catText = category[1] + " " + category[2]
+        w.emojiBarText.set(catText)
+    
+    return oncategoryHover
+
+def createEmojiHover(symbolIndex):
+    def onemojihover(event):
         w.buildEmojibar(symbolIndex)
-    return callback
+
+    return onemojihover
+
+def createEmojiClick(emoji):
+
+    def onbuttonclick():
+        print(emoji)
+
+    return onbuttonclick
