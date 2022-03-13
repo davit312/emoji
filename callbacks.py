@@ -1,3 +1,4 @@
+from curses import nonl
 from threading import Timer
 import pyperclip
 
@@ -10,6 +11,8 @@ def setWindow(windowObject):
     w = windowObject
 
 def onsearch(*args):
+    searchText = w.search.get()
+
     if w.lockSearch:
         return
 
@@ -17,8 +20,6 @@ def onsearch(*args):
 
     def dosearch():
         
-        searchText = w.search.get()
-
         if len(searchText) > 0:
             w.searchbtn.state(['!disabled'])
             w.clearSearch.state(['!disabled'])
@@ -29,10 +30,23 @@ def onsearch(*args):
 
         query = filterQuery(searchText)
         result = list()
-
-        w.emojis.destroy()        
+        
+        index = 0
+        for emj in emoji:
+            for etext in emj[1:]:
+                if searchText in etext:
+                    result.append(emj)
+                    continue
+            index += 1
+        
+                    
+        w.emojis.destroy()
+        print(result)     
+        print(searchText)
+   
         if len(result) > 0:
-            w.buildPanel('', result)
+            pass
+            #w.buildPanel('', result)
         else:
             w.buildNotFound()
         
