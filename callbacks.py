@@ -55,4 +55,3 @@ def onPanelLeave(e):
 
 def onCopyButton():
     pyperclip.copy(w.currentEmoji[0][0])
-
