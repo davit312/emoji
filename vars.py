@@ -7,6 +7,7 @@ txt = {
     "search": "🔍 Search",
     "clear": "✖ Clear",
     "copy": "📋 Copy",
+    "notfound": "No result :("
 }
 
 categoryorder = (

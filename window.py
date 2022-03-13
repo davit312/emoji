@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import ttk
 
 import json
+from turtle import bgcolor
+from webbrowser import BackgroundBrowser
 from VerticalScrolledFrame import *
 
 from emoji import *
@@ -17,9 +19,11 @@ class root():
             self.panel = json.load(panelfile)
             self.panel['recent'] = []
 
+
         self.root = Tk()
         self.root.title(txt['title'])
 
+        self.lockSearch = False
         self.currentEmoji = ('', 0)
         self.emojiBarText = StringVar()
         self.emojiCode = StringVar()
@@ -31,9 +35,10 @@ class root():
         self.frame.grid(column=0, row=0, columnspan=8, rowspan=4)
 
         self.style = ttk.Style()
-        self.style.theme_use('clam')
+        self.style.theme_use('default')
         self.style.configure('TButton', font='Drooid 16')
-        self.style.configure('Category.TButton', foreground='#192754', bordercolor='#192734')
+        self.style.configure('Category.TButton', foreground='#192754',)
+
         self.style.configure('TEntry', font="Droid 16")
 
         self.canvas = VerticalScrolledFrame(self.frame)
@@ -74,14 +79,19 @@ class root():
             cat.bind('<Enter>', cb.createCategoryHover(category))
             self.categores.append(cat) 
 
-    def buildPanel(self, catname):
+    def buildPanel(self, catname, otherEmojis = None):
 
         r = c = 0 
 
         self.emojis = ttk.Frame(self.canvas, height=400)
         self.emojis.grid(row=0, column=0)
 
-        for i in self.panel[catname]:
+        if otherEmojis == None:
+            emojis = self.panel[catname]
+        else:
+            emojis = otherEmojis
+
+        for i in emojis:
             btn = ttk.Button(self.emojis, text=emoji[i][0],
                             command=cb.createEmojiClick(emoji[i],i),
                             style='Emoji.TButton')
@@ -92,6 +102,13 @@ class root():
             if c == 9:
                 c = 0
                 r += 1
+
+    def buildNotFound(self):
+        self.emojis = ttk.Frame(self.canvas,)
+        self.emojis.grid(row=0, stick=W+E)
+
+        nf = ttk.Label(self.emojis, text=txt['notfound'])
+        nf.grid(row=0, column=0, stick=W+E)
 
     def buildFooter(self):
         self.emojiname = ttk.Label(self.frame,textvariable=self.emojiBarText, font=("", 16))        
@@ -116,6 +133,8 @@ class root():
         self.emojiBarText.set(formatEmName( emoji[ self.currentEmoji[1] ][1] ) )
 
     def mainloop(self):
+        self.searchbar.focus()
+
         self.root.mainloop()
 
 

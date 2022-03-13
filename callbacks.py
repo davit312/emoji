@@ -1,4 +1,8 @@
+from threading import Timer
 import pyperclip
+
+from emoji import *
+from utils import *
 
 
 def setWindow(windowObject):
@@ -6,14 +10,37 @@ def setWindow(windowObject):
     w = windowObject
 
 def onsearch(*args):
-    searchText = w.search.get()
+    if w.lockSearch:
+        return
 
-    if len(searchText) > 0:
-        w.searchbtn.state(['!disabled'])
-        w.clearSearch.state(['!disabled'])
-    else:
-        w.searchbtn.state(['disabled'])
-        w.clearSearch.state(['disabled'])
+    w.lockSearch = True
+
+    def dosearch():
+        
+        searchText = w.search.get()
+
+        if len(searchText) > 0:
+            w.searchbtn.state(['!disabled'])
+            w.clearSearch.state(['!disabled'])
+        else:
+            w.searchbtn.state(['disabled'])
+            w.clearSearch.state(['disabled'])
+        
+
+        query = filterQuery(searchText)
+        result = list()
+
+        w.emojis.destroy()        
+        if len(result) > 0:
+            w.buildPanel('', result)
+        else:
+            w.buildNotFound()
+        
+        w.lockSearch = False
+
+
+    searchTimeout = Timer(0.8, dosearch)
+    searchTimeout.start()
 
 def onclearsearch():
     w.search.set('')
