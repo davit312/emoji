@@ -24,7 +24,7 @@ class root():
         self.root.title(txt['title'])
 
         self.lockSearch = False
-        self.currentEmoji = ('', 0)
+        self.currentEmoji = ('', -1)
         self.emojiBarText = StringVar()
         self.emojiCode = StringVar()
 
@@ -128,7 +128,10 @@ class root():
         self.emojiBarText.set(formatEmName(emoji[emojiIndex][1]))
 
     def resetEmojibar(self):
-        if self.currentEmoji[1] == 0:
+        if self.currentEmoji[1] == -2:
+            return self.emojiBarText.set(self.currentEmoji[0])  
+  
+        if self.currentEmoji[1] == -1:
             return self.emojiBarText.set('')    
         self.emojiBarText.set(formatEmName( emoji[ self.currentEmoji[1] ][1] ) )
 
@@ -137,6 +140,10 @@ class root():
 
         self.root.mainloop()
 
+    def buildRawSearchText(self, rawQuery):
+
+        self.currentEmoji =  (txt['resultFor'] + rawQuery, -2)
+        self.emojiBarText.set(self.currentEmoji[0])
 
 def formatEmName(emname):
     return emname[0].upper() + emname[1:].replace('_', ' ')

@@ -1,4 +1,4 @@
-from curses import nonl
+import time
 from threading import Timer
 import pyperclip
 
@@ -10,50 +10,56 @@ def setWindow(windowObject):
     global w
     w = windowObject
 
-def onsearch(*args):
-    searchText = w.search.get()
+lastPress = 0
 
-    if w.lockSearch:
+def dosearch(minSearchLen = 2):
+    now = round(time.time() * 1000)
+
+    if (now - lastPress) < 1500:
         return
 
-    w.lockSearch = True
+    rawQuery = w.search.get()
+    query = filterQuery(rawQuery)
+    queryLength = len(query)
 
-    def dosearch():
-        
-        if len(searchText) > 0:
-            w.searchbtn.state(['!disabled'])
-            w.clearSearch.state(['!disabled'])
-        else:
-            w.searchbtn.state(['disabled'])
-            w.clearSearch.state(['disabled'])
-        
+    if queryLength > 0:
+        w.searchbtn.state(['!disabled'])
+        w.clearSearch.state(['!disabled'])
+    else:
+        w.searchbtn.state(['disabled'])
+        w.clearSearch.state(['disabled'])
+        return
+    
+    if queryLength < minSearchLen:
+        return
 
-        query = filterQuery(searchText)
-        result = list()
-        
-        index = 0
-        for emj in emoji:
-            for etext in emj[1:]:
-                if searchText in etext:
-                    result.append(emj)
-                    continue
-            index += 1
-        
-                    
+    result = list()
+    
+    index = 0
+    for emj in emoji:
+        for etext in emj[1:]:
+            if query in etext:
+                result.append(index)
+                continue
+        index += 1
+    
+    try:          
         w.emojis.destroy()
-        print(result)     
-        print(searchText)
-   
-        if len(result) > 0:
-            pass
-            #w.buildPanel('', result)
-        else:
-            w.buildNotFound()
-        
-        w.lockSearch = False
+    except tkinter.TclError:
+        print('Error in tkinter')
 
+    if len(result) > 0:
+        w.buildPanel('', result)
+    else:
+        w.buildNotFound()
 
-    searchTimeout = Timer(0.8, dosearch)
+    w.buildRawSearchText(rawQuery)
+
+def onsearch(*args):
+    global lastpress
+    lastPress = round(time.time() * 1000)
+
+    searchTimeout = Timer(1.3, dosearch)
     searchTimeout.start()
 
 def onclearsearch():

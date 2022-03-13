@@ -7,7 +7,8 @@ txt = {
     "search": "🔍 Search",
     "clear": "✖ Clear",
     "copy": "📋 Copy",
-    "notfound": "No result :("
+    "notfound": "No result :(",
+    "resultFor": "Result for: ",
 }
 
 categoryorder = (
@@ -22,6 +23,7 @@ categoryorder = (
     ("flags","🚩", "Flags"),
 )
 
+'''
 skinTones = (
     ('\U0001F3FB', 'light_skin_tone'),
     ('\U0001F3FC', 'medium-light_skin_tone'),
@@ -29,3 +31,4 @@ skinTones = (
     ('\U0001F3FE', 'medium-dark_skin_tone'),
     ('\U0001F3FF', 'dark_skin_tone'),
 )
+'''
