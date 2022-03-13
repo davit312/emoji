@@ -1,4 +1,5 @@
 import time
+import tkinter
 from threading import Timer
 import pyperclip
 

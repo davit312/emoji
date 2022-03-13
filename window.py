@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 import json
+from tokenize import String
 from turtle import bgcolor
 from webbrowser import BackgroundBrowser
 from VerticalScrolledFrame import *
@@ -19,7 +20,6 @@ class root():
             self.panel = json.load(panelfile)
             self.panel['recent'] = []
 
-
         self.root = Tk()
         self.root.title(txt['title'])
 
@@ -27,6 +27,8 @@ class root():
         self.currentEmoji = ('', -1)
         self.emojiBarText = StringVar()
         self.emojiCode = StringVar()
+        self.imageType = StringVar(value=0)
+
 
         self.content = ttk.Frame(self.root)
         self.content.grid(column=0, row=0)
@@ -37,6 +39,8 @@ class root():
         self.style = ttk.Style()
         self.style.theme_use('default')
         self.style.configure('TButton', font='Drooid 16')
+        self.style.configure('Twemoji.TButton', font=('Droid 12'),)
+
         self.style.configure('Category.TButton', foreground='#192754',)
 
         self.style.configure('TEntry', font="Droid 16")
@@ -56,7 +60,7 @@ class root():
         self.search.trace_add('write', cb.onsearch)
 
         self.searchbar =  ttk.Entry(self.frame, textvariable=self.search, font=("",16))
-        self.searchbar.grid(row=0, column=0,columnspan=6, sticky=W+E)
+        self.searchbar.grid(row=0, column=0, columnspan=6, sticky=W+E)
 
 
         self.searchbtn = ttk.Button(self.frame, padding=(3,8), text=txt['search'], state='disable')
@@ -75,7 +79,7 @@ class root():
                             command=cb.crateonpressCategory(category),
                             text=category[1],
                             style='Category.TButton')
-            cat.grid(row=1, column=index)
+            cat.grid(row=1, column=index, sticky=W)
             cat.bind('<Enter>', cb.createCategoryHover(category))
             self.categores.append(cat) 
 
@@ -118,11 +122,28 @@ class root():
                                 textvariable=self.emojiCode,
                                 font=("", 16) )
 
-        self.copyBar.grid(row=4, column=0, columnspan=2, sticky=W)
+        self.copyBar.grid(row=4, column=0, columnspan=2,  sticky=W)
 
         ttk.Button(self.frame, 
                 command=cb.onCopyButton,
                 text=txt['copy']).grid(row=4,column=2)
+
+
+        self.twemojiCode = StringVar()
+        self.twemojicode = ttk.Entry(self.frame,font=('Droid', 14))
+        self.twemojicode.grid(row=5,column=0, columnspan=2, padx = 0, sticky=W)
+
+        rb = ttk.Radiobutton(self.frame, text="PNG", width=0, variable=self.imageType, value=0)
+        rb.grid(row=6,column=2, sticky=W)
+        rb = ttk.Radiobutton(self.frame, text="SVG", width=0, variable=self.imageType, value=1)
+        rb.grid(row=6,column=3,  sticky=W)
+
+        
+        cptw = ttk.Button(self.frame,text=txt['copy'] + " twemoji address", style="Twemoji.TButton")
+        cptw.grid(row=5, column=2, columnspan=2, padx = 0, sticky=W)
+        
+
+        
 
     def buildEmojibar(self, emojiIndex):
         self.emojiBarText.set(formatEmName(emoji[emojiIndex][1]))
@@ -141,7 +162,6 @@ class root():
         self.root.mainloop()
 
     def buildRawSearchText(self, rawQuery):
-
         self.currentEmoji =  (txt['resultFor'] + rawQuery, -2)
         self.emojiBarText.set(self.currentEmoji[0])
 
