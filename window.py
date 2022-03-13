@@ -97,9 +97,11 @@ class root():
         self.emojiname = ttk.Label(self.frame,textvariable=self.emojiBarText, font=("", 16))        
         self.emojiname.grid(row=3, column=0, columnspan=9)
 
+        self.copyBar = ttk.Entry(self.frame, 
+                                textvariable=self.emojiCode,
+                                font=("", 16) )
 
-        self.copyBar = ttk.Entry(self.frame, textvariable=self.emojiCode, font=("", 16) )
-        self.copyBar.grid(row=4, column=0,columnspan=1)
+        self.copyBar.grid(row=4, column=0, columnspan=2, sticky=W)
 
         ttk.Button(self.frame, 
                 command=cb.onCopyButton,
