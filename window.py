@@ -2,9 +2,6 @@ from tkinter import *
 from tkinter import ttk
 
 import json
-from tokenize import String
-from turtle import bgcolor
-from webbrowser import BackgroundBrowser
 from VerticalScrolledFrame import *
 
 from emoji import *
@@ -128,7 +125,6 @@ class root():
                 command=cb.onCopyButton,
                 text=txt['copy']).grid(row=4,column=2)
 
-
         self.twemojiCode = StringVar()
         self.twemojicode = ttk.Entry(self.frame,font=('Droid', 14))
         self.twemojicode.grid(row=5,column=0, columnspan=2, padx = 0, sticky=W)
@@ -137,13 +133,9 @@ class root():
         rb.grid(row=6,column=2, sticky=W)
         rb = ttk.Radiobutton(self.frame, text="SVG", width=0, variable=self.imageType, value=1)
         rb.grid(row=6,column=3,  sticky=W)
-
         
-        cptw = ttk.Button(self.frame,text=txt['copy'] + " twemoji address", style="Twemoji.TButton")
+        cptw = ttk.Button(self.frame,text=txt['copy'] + " twemoji address", command=cb.onTwemojiClick, style="Twemoji.TButton")
         cptw.grid(row=5, column=2, columnspan=2, padx = 0, sticky=W)
-        
-
-        
 
     def buildEmojibar(self, emojiIndex):
         self.emojiBarText.set(formatEmName(emoji[emojiIndex][1]))
@@ -158,7 +150,6 @@ class root():
 
     def mainloop(self):
         self.searchbar.focus()
-
         self.root.mainloop()
 
     def buildRawSearchText(self, rawQuery):

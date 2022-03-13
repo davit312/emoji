@@ -74,7 +74,6 @@ def crateonpressCategory(cname):
 
     return oncategorypress    
 
-
 def createCategoryHover(category):
     def oncategoryHover(event):
         catText = category[1] + " " + category[2]
@@ -96,10 +95,13 @@ def createEmojiClick(emj, index):
 
     return onbuttonclick
 
-
 def onPanelLeave(e):
     w.resetEmojibar()
 
-
 def onCopyButton():
     pyperclip.copy(w.currentEmoji[0][0])
+
+#todo
+def onTwemojiClick(*args):
+    pass
+    print(55)
