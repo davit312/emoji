@@ -20,8 +20,9 @@ class root():
         self.root = Tk()
         self.root.title(txt['title'])
 
-        self.currentEmoji = (0, "")
+        self.currentEmoji = ('', 0)
         self.emojiBarText = StringVar()
+        self.emojiCode = StringVar()
 
         self.content = ttk.Frame(self.root)
         self.content.grid(column=0, row=0)
@@ -30,13 +31,15 @@ class root():
         self.frame.grid(column=0, row=0, columnspan=8, rowspan=4)
 
         self.style = ttk.Style()
-        self.style.theme_use('default')
-        self.style.configure('TButton', font='Helvatica00 16')
+        self.style.theme_use('clam')
+        self.style.configure('TButton', font='Drooid 16')
         self.style.configure('Category.TButton', bordercolor='#192734')
+        self.style.configure('TEntry', font="Droid 16")
 
         self.canvas = VerticalScrolledFrame(self.frame)
         self.canvas.grid(row=2, column=0, columnspan=10, sticky=W+E)
-   
+        self.canvas.bind('<Leave>', cb.onPanelLeave)
+
     def build(self):
         self.buuildTopBar()
         self.buildCategores()
@@ -77,10 +80,10 @@ class root():
 
         self.emojis = ttk.Frame(self.canvas, height=400)
         self.emojis.grid(row=0, column=0)
-    
+
         for i in self.panel[catname]:
             btn = ttk.Button(self.emojis, text=emoji[i][0],
-                            command=cb.createEmojiClick(emoji[i]),
+                            command=cb.createEmojiClick(emoji[i],i),
                             style='Emoji.TButton')
             btn.bind('<Enter>', cb.createEmojiHover(i))
 
@@ -94,12 +97,21 @@ class root():
         self.emojiname = ttk.Label(self.frame,textvariable=self.emojiBarText, font=("", 16))        
         self.emojiname.grid(row=3, column=0, columnspan=9)
 
-        self.copyBar = ttk.Entry(textvariable=)
+
+        self.copyBar = ttk.Entry(self.frame, textvariable=self.emojiCode, font=("", 16) )
+        self.copyBar.grid(row=4, column=0,columnspan=1)
+
+        ttk.Button(self.frame, 
+                command=cb.onCopyButton,
+                text=txt['copy']).grid(row=4,column=2)
 
     def buildEmojibar(self, emojiIndex):
-        self.currentEmoji =  emoji[emojiIndex]
-        self.emojiBarText.set(formatEmName(self.currentEmoji[1]))
+        self.emojiBarText.set(formatEmName(emoji[emojiIndex][1]))
 
+    def resetEmojibar(self):
+        if self.currentEmoji[1] == 0:
+            return self.emojiBarText.set('')    
+        self.emojiBarText.set(formatEmName( emoji[ self.currentEmoji[1] ][1] ) )
 
     def mainloop(self):
         self.root.mainloop()

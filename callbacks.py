@@ -1,3 +1,5 @@
+import pyperclip
+
 
 def setWindow(windowObject):
     global w
@@ -38,9 +40,19 @@ def createEmojiHover(symbolIndex):
 
     return onemojihover
 
-def createEmojiClick(emoji):
+def createEmojiClick(emj, index):
 
     def onbuttonclick():
-        print(emoji)
+        w.currentEmoji = (emj, index)
+        w.emojiCode.set(w.currentEmoji[0][0])
 
     return onbuttonclick
+
+
+def onPanelLeave(e):
+    w.resetEmojibar()
+
+
+def onCopyButton():
+    pyperclip.copy(w.currentEmoji[0][0])
+

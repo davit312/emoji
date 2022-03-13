@@ -5,7 +5,8 @@ windowHeight = 350
 txt = {
     "title": "Emoji Selecter",
     "search": "🔍 Search",
-    "clear": "✖ Clear"
+    "clear": "✖ Clear",
+    "copy": "📋 Copy",
 }
 
 categoryorder = (
