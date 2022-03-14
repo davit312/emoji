@@ -1,10 +1,10 @@
 from tkinter import *
 from tkinter import ttk
 
-import json
 from VerticalScrolledFrame import *
 
-from emoji import *
+from data.emoji import *
+from data.panel import *
 from vars import *
 import callbacks as cb
 
@@ -13,9 +13,8 @@ class root():
     def __init__(self):
         cb.setWindow(self)
 
-        with open("./panel.json") as panelfile:
-            self.panel = json.load(panelfile)
-            self.panel['recent'] = []
+        self.panel = panel
+        self.panel['recent'] = []
 
         self.root = Tk()
         self.root.title(txt['title'])

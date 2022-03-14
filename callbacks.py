@@ -4,7 +4,7 @@ from threading import Timer
 import pyperclip
 
 from vars import *
-from emoji import *
+from data.emoji import *
 from utils import *
 
 
