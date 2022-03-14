@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 import json
+from turtle import width
 from VerticalScrolledFrame import *
 
 from emoji import *
@@ -126,8 +127,8 @@ class root():
                 text=txt['copy']).grid(row=4,column=2)
 
         self.twemojiCode = StringVar()
-        self.twemojicode = ttk.Entry(self.frame,font=('Droid', 14))
-        self.twemojicode.grid(row=5,column=0, columnspan=2, padx = 0, sticky=W)
+        self.twemojiBar = ttk.Entry(self.frame, textvariable=self.twemojiCode, font=('Droid', 14))
+        self.twemojiBar.grid(row=5,column=0, columnspan=2, sticky=W)
 
         rb = ttk.Radiobutton(self.frame, text="PNG", width=0, variable=self.imageType, value=0)
         rb.grid(row=6,column=2, sticky=W)

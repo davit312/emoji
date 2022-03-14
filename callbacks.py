@@ -3,6 +3,7 @@ import tkinter
 from threading import Timer
 import pyperclip
 
+from vars import *
 from emoji import *
 from utils import *
 
@@ -99,9 +100,24 @@ def onPanelLeave(e):
     w.resetEmojibar()
 
 def onCopyButton():
+    if len(w.currentEmoji[0]) == 0:
+        return print('Nothing to copy!')
     pyperclip.copy(w.currentEmoji[0][0])
 
-#todo
 def onTwemojiClick(*args):
-    pass
-    print(55)
+    if len(w.currentEmoji[0]) == 0:
+        return print('Nothing to copy!')
+
+    twemojiCode = calculateTwemojiCode(w.currentEmoji[0][0])
+    w.twemojiCode.set(twemojiCode)
+
+    result = CDN["url"]
+    
+    imgType = w.imageType.get()
+
+    if imgType == "0":
+        result += CDN["png"] + twemojiCode + ".png"
+    else:
+        result += CDN["svg"] + twemojiCode + ".svg"
+
+    pyperclip.copy(result)
