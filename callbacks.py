@@ -112,7 +112,6 @@ def onTwemojiClick(*args):
         return print('Nothing to copy!')
 
     twemojiCode = calculateTwemojiCode(w.currentEmoji[0][0])
-    w.twemojiCode.set(twemojiCode)
 
     result = CDN["url"]
     
@@ -123,4 +122,5 @@ def onTwemojiClick(*args):
     else:
         result += CDN["svg"] + twemojiCode + ".svg"
 
+    w.twemojiCode.set(result)    
     pyperclip.copy(result)
