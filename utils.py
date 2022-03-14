@@ -45,7 +45,8 @@ def addToPanel(emojiIndex, recent):
     length = len(recent)
 
     if length > 30:
-        recent.pop(length - 1)
+        print(547)
+        recent.pop(0)
 
 def saveRecentUsed(recent):
     recentJson = json.dumps(recent)
