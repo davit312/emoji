@@ -1,3 +1,8 @@
+from os.path import exists
+import json
+
+from vars import recentUsedPath
+
 def filterQuery(query):
     q = query.strip().replace(' ','_')
     return q
@@ -22,3 +27,28 @@ def calculateTwemojiCode(symbol):
         result +=  "{:x}".format(code)
     
     return result
+
+def getRecent():
+    recent = []
+    if not exists(recentUsedPath):
+        return recent
+    else:
+        with open(recentUsedPath, 'r') as rec:
+            return json.load(rec)
+
+def addToPanel(emojiIndex, recent):
+    if emojiIndex in recent:
+        recent.remove(emojiIndex)
+    
+    recent.append(emojiIndex)
+    
+    length = len(recent)
+
+    if length > 30:
+        recent.pop(length - 1)
+
+def saveRecentUsed(recent):
+    recentJson = json.dumps(recent)
+
+    with open(recentUsedPath, 'w') as rec:
+        rec.write(recentJson)

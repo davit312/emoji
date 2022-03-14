@@ -105,7 +105,10 @@ def onPanelLeave(e):
 def onCopyButton():
     if len(w.currentEmoji[0]) == 0:
         return print('Nothing to copy!')
+
     pyperclip.copy(w.currentEmoji[0][0])
+
+    addToPanel(w.currentEmoji[1], w.panel['recent'])
 
 def onTwemojiClick(*args):
     if len(w.currentEmoji[0]) == 0:
@@ -124,3 +127,10 @@ def onTwemojiClick(*args):
 
     w.twemojiCode.set(result)    
     pyperclip.copy(result)
+
+    addToPanel(w.currentEmoji[1], w.panel['recent'])
+
+
+def saveRecent():
+    saveRecentUsed(w.panel['recent'])
+    w.root.destroy()

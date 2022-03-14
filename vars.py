@@ -7,6 +7,9 @@ CDN = {
     "svg": "svg/",
 }
 
+recentUsedPath = './recent.json'
+maxRecentItems = 30
+
 txt = {
     "title": "Emoji Selecter",
     "search": "🔍 Search",

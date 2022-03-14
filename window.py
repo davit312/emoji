@@ -7,6 +7,8 @@ from data.emoji import *
 from data.panel import *
 from vars import *
 import callbacks as cb
+import utils
+
 
 class root():
 
@@ -14,7 +16,7 @@ class root():
         cb.setWindow(self)
 
         self.panel = panel
-        self.panel['recent'] = []
+        self.panel['recent'] = utils.getRecent()
 
         self.root = Tk()
         self.root.title(txt['title'])
@@ -24,7 +26,6 @@ class root():
         self.emojiBarText = StringVar()
         self.emojiCode = StringVar()
         self.imageType = StringVar(value=0)
-
 
         self.content = ttk.Frame(self.root)
         self.content.grid(column=0, row=0)
@@ -156,6 +157,8 @@ class root():
 
     def mainloop(self):
         self.searchbar.focus()
+
+        self.root.protocol("WM_DELETE_WINDOW", cb.saveRecent)
         self.root.mainloop()
 
 
