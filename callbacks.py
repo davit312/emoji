@@ -14,7 +14,7 @@ def setWindow(windowObject):
 
 lastPress = 0
 
-def dosearch(minSearchLen = 2):
+def dosearch(minSearchLen = SearchStarting):
     now = round(time.time() * 1000)
 
     if (now - lastPress) < 1500:
@@ -71,6 +71,9 @@ def onclearsearch():
 def crateonpressCategory(cname):
     def oncategorypress():
         w.emojis.destroy()
+        w.currentEmoji = DefaultEmoji
+        footertxt = w.emojiBarText.get()
+        w.emojiBarText.set(footertxt)
         w.buildPanel(cname[0])
 
     return oncategorypress    

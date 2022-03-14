@@ -22,7 +22,7 @@ class root():
         self.root.title(txt['title'])
 
         self.lockSearch = False
-        self.currentEmoji = ('', -1)
+        self.currentEmoji = DefaultEmoji
         self.emojiBarText = StringVar()
         self.emojiCode = StringVar()
         self.imageType = StringVar(value=0)
@@ -79,7 +79,7 @@ class root():
                             style='Category.TButton')
             cat.grid(row=1, column=index, sticky=W)
             cat.bind('<Enter>', cb.createCategoryHover(category))
-            self.categores.append(cat) 
+            self.categores.append(cat)
 
     def buildPanel(self, catname, otherEmojis = None):
 

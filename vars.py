@@ -1,6 +1,11 @@
-windowWidth = 330
-windowHeight = 350
+SearchStarting = 3
+DefaultEmoji = ('', -1)
 
+CDN = {
+    "url": "https://twemoji.maxcdn.com/v/13.1.0/",
+    "png": "72x72/",
+    "svg": "svg/",
+}
 
 txt = {
     "title": "Emoji Selecter",
