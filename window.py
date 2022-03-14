@@ -92,6 +92,9 @@ class root():
 
         if otherEmojis == None:
             emojis = self.panel[catname]
+            if catname == 'recent':
+                emojis = emojis.copy()
+                emojis.reverse()
         else:
             emojis = otherEmojis
 
