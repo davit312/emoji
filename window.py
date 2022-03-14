@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 
 import json
-from turtle import width
 from VerticalScrolledFrame import *
 
 from emoji import *
@@ -60,8 +59,11 @@ class root():
         self.searchbar =  ttk.Entry(self.frame, textvariable=self.search, font=("",16))
         self.searchbar.grid(row=0, column=0, columnspan=6, sticky=W+E)
 
+        self.searchbar.bind('<Return>', lambda event: cb.dosearch(0))
 
-        self.searchbtn = ttk.Button(self.frame, padding=(3,8), text=txt['search'], state='disable')
+        self.searchbtn = ttk.Button(self.frame, 
+                        command=lambda: cb.dosearch(0), 
+                        padding=(3,8), text=txt['search'], state='disable')
         self.searchbtn.grid(row=0, column=6, columnspan=2, sticky=W+E)
 
         self.clearSearch = ttk.Button(self.frame, padding=(1,8), text=txt['clear'], state='disable')
@@ -149,13 +151,14 @@ class root():
             return self.emojiBarText.set('')    
         self.emojiBarText.set(formatEmName( emoji[ self.currentEmoji[1] ][1] ) )
 
-    def mainloop(self):
-        self.searchbar.focus()
-        self.root.mainloop()
-
     def buildRawSearchText(self, rawQuery):
         self.currentEmoji =  (txt['resultFor'] + rawQuery, -2)
         self.emojiBarText.set(self.currentEmoji[0])
 
-def formatEmName(emname):
-    return emname[0].upper() + emname[1:].replace('_', ' ')
+    def mainloop(self):
+        self.searchbar.focus()
+        self.root.mainloop()
+
+
+# helper function
+formatEmName = lambda emname: emname[0].upper() + emname[1:].replace('_', ' ')
