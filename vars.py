@@ -11,7 +11,7 @@ recentUsedPath = './recent.json'
 maxRecentItems = 30
 
 txt = {
-    "title": "Emoji Selecter",
+    "title": "Emoji Chart",
     "search": "🔍 Search",
     "clear": "✖ Clear",
     "copy": "📋 Copy",
