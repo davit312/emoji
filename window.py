@@ -121,27 +121,27 @@ class root():
         self.emojiname = ttk.Label(self.frame,textvariable=self.emojiBarText, font=("", 16))        
         self.emojiname.grid(row=3, column=0, columnspan=9)
 
-        self.copyBar = ttk.Entry(self.frame, 
-                                textvariable=self.emojiCode,
-                                font=("", 16) )
+        twemojiRow = ttk.Frame(self.frame,)
+        twemojiRow.grid(row=5, column=0, columnspan=9, pady=(10, 0), sticky=W+E)
 
-        self.copyBar.grid(row=4, column=0, columnspan=2,  sticky=W)
+        self.copyBar = ttk.Entry(twemojiRow, textvariable=self.emojiCode, font=("", 12) )
 
-        ttk.Button(self.frame, 
-                command=cb.onCopyButton,
-                text=txt['copy']).grid(row=4,column=2)
+        self.copyBar.grid(row=0, column=0, sticky=W)
+
+        copybtn = ttk.Button(twemojiRow, command=cb.onCopyButton,text=txt['copy'])
+        copybtn.grid(row=0, column=1, padx=(5, 50))
 
         self.twemojiCode = StringVar()
-        self.twemojiBar = ttk.Entry(self.frame, textvariable=self.twemojiCode, font=('Droid', 14))
-        self.twemojiBar.grid(row=5,column=0, columnspan=2, sticky=W)
+        self.twemojiBar = ttk.Entry(twemojiRow, textvariable=self.twemojiCode, font=('Droid', 12))
+        self.twemojiBar.grid(row=0, column=2, columnspan=2, sticky=W)
 
-        rb = ttk.Radiobutton(self.frame, text="PNG", width=0, variable=self.imageType, value=0)
-        rb.grid(row=6,column=2, sticky=W)
-        rb = ttk.Radiobutton(self.frame, text="SVG", width=0, variable=self.imageType, value=1)
-        rb.grid(row=6,column=3,  sticky=W)
-        
-        cptw = ttk.Button(self.frame,text=txt['copy'] + " twemoji address", command=cb.onTwemojiClick, style="Twemoji.TButton")
-        cptw.grid(row=5, column=2, columnspan=2, padx = 0, sticky=W)
+        rb = ttk.Radiobutton(twemojiRow, text="PNG", width=0, variable=self.imageType, value=0)
+        rb.grid(row=0,column=4,padx=5,sticky=W)
+        rb = ttk.Radiobutton(twemojiRow, text="SVG", width=0, variable=self.imageType, value=1)
+        rb.grid(row=0,column=5,padx=5,sticky=W)
+
+        cptw = ttk.Button(twemojiRow,text=txt['copy'] + " twemoji address", command=cb.onTwemojiClick, )
+        cptw.grid(row=0, column=6, padx=10, sticky=E)
 
     def buildEmojibar(self, emojiIndex):
         self.emojiBarText.set(formatEmName(emoji[emojiIndex][1]))
